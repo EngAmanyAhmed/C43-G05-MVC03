@@ -9,10 +9,10 @@ namespace Company.G02.BLL.Interfaces
 {
     public interface IDepartmentRepository
     {
-        IEnumerable<Department> GetAll();
-        Department? GetById(int id);
-        int Add (Department department); 
-        int Update (Department department); 
-        int Delete (Department department); 
+        //IEnumerable<Department> GetAll();
+        //Department? GetById(int id);
+        //int Add (Department department); 
+        //int Update (Department department); 
+        //int Delete (Department department); 
     }
 }
