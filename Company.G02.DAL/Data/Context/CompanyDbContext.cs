@@ -11,13 +11,13 @@ namespace Company.G02.DAL.Data.Context
 {
     public class CompanyDbContext : DbContext
     {
-        public CompanyDbContext(DbContextOptions<CompanyDbContext> options):base(options)
+        public CompanyDbContext(DbContextOptions<CompanyDbContext> options) : base(options)
         {
-            
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
@@ -25,6 +25,5 @@ namespace Company.G02.DAL.Data.Context
         //}
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
-
     }
 }

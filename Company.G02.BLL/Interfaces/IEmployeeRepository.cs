@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Company.G02.BLL.Interfaces
 {
-    public interface IEmployeeRepository:IGenericRepository<Employee>
+    public interface IEmployeeRepository : IGenericRepository<Employee>
     {
-        //Employee? GetByName(string name);
+        Task<List<Employee>> GetByNameAsync(string name);
 
         //IEnumerable<Employee> GetAll();
         //Employee? GetById(int id);

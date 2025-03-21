@@ -9,7 +9,7 @@ namespace Company.G02.DAL.Models.Dtos
 {
     public class CreateDepartmentDto
     {
-        [Required(ErrorMessage ="Code is required!")]
+        [Required(ErrorMessage = "Code is required!")]
         public string Code { get; set; }
 
         [Required(ErrorMessage = "Name is required!")]

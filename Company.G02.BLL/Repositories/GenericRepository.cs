@@ -1,6 +1,7 @@
 ﻿using Company.G02.BLL.Interfaces;
 using Company.G02.DAL.Data.Context;
 using Company.G02.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,29 +18,37 @@ namespace Company.G02.BLL.Repositories
         {
             _context = context;
         }
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return _context.Set<T>().ToList();
+            if (typeof(T) == typeof(Employee))
+            {
+                return (IEnumerable<T>)await _context.Employees.Include(E => E.Department).ToListAsync();
+            }
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public T? GetById(int id)
+        public async Task<T?> GetByIdAsync(int id)
         {
+            if (typeof(T) == typeof(Employee))
+            {
+                return await _context.Employees.Include(E => E.Department).FirstOrDefaultAsync(E => E.Id == id) as T;
+            }
             return _context.Set<T>().Find(id);
         }
-        public int Add(T model)
+        public async Task AddAsync(T model)
         {
-            _context.Set<T>().Add(model);
-            return _context.SaveChanges();
+            await _context.Set<T>().AddAsync(model);
+            //return _context.SaveChanges();
         }
-        public int Update(T model)
+        public void Update(T model)
         {
             _context.Set<T>().Update(model);
-            return _context.SaveChanges();
+            //return _context.SaveChanges();
         }
-        public int Delete(T model)
+        public void Delete(T model)
         {
             _context.Set<T>().Remove(model);
-            return _context.SaveChanges();
+            //return _context.SaveChanges();
         }
     }
 }

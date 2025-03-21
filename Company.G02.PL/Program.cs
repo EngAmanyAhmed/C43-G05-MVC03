@@ -1,6 +1,9 @@
+using Company.G02.BLL;
 using Company.G02.BLL.Interfaces;
 using Company.G02.BLL.Repositories;
 using Company.G02.DAL.Data.Context;
+using Company.G02.PL.Mapping;
+using Company.G02.PL.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -14,13 +17,29 @@ namespace Company.G02.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();//Register built-in mvc services
-            
-            builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();//Allows Dependancy Injection for DepartmentRepository
-            
-            builder.Services.AddDbContext<CompanyDbContext>(options => 
+
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();//Allows Dependancy Injection for DepartmentRepository
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();//Allows Dependancy Injection for EmployeeRepository
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();//Allows Dependancy Injection for EmployeeRepository
+
+            builder.Services.AddDbContext<CompanyDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });//Allows Dependancy Injection for CompanyDbContext
+
+
+            //builder.Services.AddScoped(); // Create object its lifetime per request - Unreachable
+            //builder.Services.AddTransient(); //Create object its lifetime per operation
+            //builder.Services.AddSingleton(); //Create object its lifetime per App
+
+            //builder.Services.AddScoped<IScopedService,ScopedService>(); // Per request
+            //builder.Services.AddTransient<ITransientService,TransientService>();// Per operation
+            //builder.Services.AddSingleton<ISingletonService, SingletonService>();// Per App
+
+            //builder.Services.AddAutoMapper(typeof(EmployeeProfile));
+            builder.Services.AddAutoMapper(M => M.AddProfile(new EmployeeProfile()));
+            builder.Services.AddAutoMapper(M => M.AddProfile(new DepartmentProfile()));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

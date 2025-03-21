@@ -64,12 +64,18 @@ namespace Company.G02.DAL.Data.Migrations
                 b.Property<DateTime>("CreatedAt")
                     .HasColumnType("datetime2");
 
+                b.Property<int?>("DepartmentId")
+                    .HasColumnType("int");
+
                 b.Property<string>("Email")
                     .IsRequired()
                     .HasColumnType("nvarchar(max)");
 
                 b.Property<DateTime>("HiringDate")
                     .HasColumnType("datetime2");
+
+                b.Property<string>("ImageName")
+                    .HasColumnType("nvarchar(max)");
 
                 b.Property<bool>("IsActive")
                     .HasColumnType("bit");
@@ -90,7 +96,24 @@ namespace Company.G02.DAL.Data.Migrations
 
                 b.HasKey("Id");
 
+                b.HasIndex("DepartmentId");
+
                 b.ToTable("Employees");
+            });
+
+            modelBuilder.Entity("Company.G02.DAL.Models.Employee", b =>
+            {
+                b.HasOne("Company.G02.DAL.Models.Department", "Department")
+                    .WithMany("Employees")
+                    .HasForeignKey("DepartmentId")
+                    .OnDelete(DeleteBehavior.SetNull);
+
+                b.Navigation("Department");
+            });
+
+            modelBuilder.Entity("Company.G02.DAL.Models.Department", b =>
+            {
+                b.Navigation("Employees");
             });
 #pragma warning restore 612, 618
         }
